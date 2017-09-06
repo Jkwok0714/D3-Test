@@ -1,5 +1,6 @@
 var inputData =[];
 var circSize;
+var divisorForStrengthToX = 40;
 
 var main = () => {
   inputData = generateTrash(20);
@@ -8,11 +9,41 @@ var main = () => {
 
   //var container = d3.select('.scrollbox').append('svg').attr('width', '100%').attr('height', '100%')
 //  .style('background-color', 'gray').attr('class', 'drawArea');
+  var dataPoints = d3.select('#key').selectAll("div").data(locations).enter().append("div")
+    .text((d) => d).attr('class', 'keyBit').style('background-color', (d) => originToColor2(d))
+    .style('color', 'white').style('text-shadow', '2px 2px black');
 
-  var dataPoints = d3.select('#scrollbox').selectAll("circle").data(inputData).enter().append("circle")
-    .attr('r', circSize).style('fill', 'gray').attr('class', 'element').style('opacity', (d) => d.strength/100)
-    .attr('transform', (d) => 'translate(' + d.worth/90 + ', 50)');
 
+  var dataPoints = d3.select('#scrollbox').selectAll("g").data(inputData).enter().append("g");
+  dataPoints.append("circle")
+    .attr('r', circSize).style('fill', (d) => originToColor2(d.origin)).attr('class', 'element').style('opacity', (d) => d.strength/100)
+    .transition().duration(300)
+    .attr('transform', (d) => 'translate(' + d.worth/divisorForStrengthToX + ', 50)');
+  dataPoints.append("text")
+    .text((d) => `${d.name} (str:${d.strength})`)
+    .style('font-size', '8px').style('font-family', 'verdana')
+    .transition().duration(300).attr('z-index', 1)
+    .attr('transform', (d) => 'translate(' + d.worth/divisorForStrengthToX + ', 50)')
+    .transition().duration(200).attr('transform',  (d) => 'translate(' + d.worth/divisorForStrengthToX + ', 30) rotate(90)');
+};
+
+var colorIndex = {};
+colorIndex['Acarime'] = '1a60da';
+colorIndex['Alon'] = '1acbda';
+colorIndex['Lugera'] = '16e882';
+colorIndex['Karrier\s Fort'] = '835415';
+colorIndex['Ialesys'] = 'eca444';
+colorIndex['Amina'] = 'fff059';
+colorIndex['Relinq'] = 'c19e77';
+colorIndex['Belwood'] = '72b210';
+
+
+var originToColor = (d) => {
+  return '#' + colorIndex[d.origin];
+};
+
+var originToColor2 = (d) => {
+  return '#' + colorIndex[d];
 };
 
 var generateTrash = (n) => {
