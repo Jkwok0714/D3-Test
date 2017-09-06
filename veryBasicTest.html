@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>D3 Testlands</title>
+  <style>
+    #chart svg {
+      display: inline-block;
+      background: #4285F4;
+      margin-right: 3px;
+    }
+  </style>
+</head>
+<body>
+  <svg id="chart" style="width: 80%; height: 800px;"></svg>
+  <script src="lib/d3.js" charset="utf-8"></script>
+  <script>
+    d3.select('#chart')
+      .selectAll("circle")
+      .data([45, 8, 15, 16, 23, 99, 74])
+      .enter()
+      .append("circle")
+      .style('opacity', 0)
+      .transition().duration(4000)
+      .attr("r", (d)=> d + "px")
+      .attr("cx", (d) => d * 5).attr("cy", 100)
+      .style("opacity", 0.5);
+  </script>
+
+</body>
+</html>
