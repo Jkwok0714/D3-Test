@@ -7,17 +7,15 @@ var main = () => {
   circSize = 20;
   console.log(JSON.stringify(inputData));
 
-  //var container = d3.select('.scrollbox').append('svg').attr('width', '100%').attr('height', '100%')
-//  .style('background-color', 'gray').attr('class', 'drawArea');
   var dataPoints = d3.select('#key').selectAll("div").data(locations).enter().append("div")
-    .text((d) => d).attr('class', 'keyBit').style('background-color', (d) => originToColor2(d))
+    .text((d) => d).attr('class', 'keyBit').style('background-color', (d) => originToColor(d))
     .style('color', 'white').style('text-shadow', '2px 2px black');
 
 
   var dataPoints = d3.select('#scrollbox').selectAll("g").data(inputData).enter().append("g");
   dataPoints.append("circle")
-    .attr('r', circSize).style('fill', (d) => originToColor2(d.origin)).attr('class', 'element').style('opacity', (d) => d.strength/100)
-    .transition().duration(300)
+    .attr('r', circSize).style('fill', (d) => originToColor(d.origin)).attr('class', 'element')
+    .style('opacity', (d) => d.strength/100).transition().duration(300)
     .attr('transform', (d) => 'translate(' + d.worth/divisorForStrengthToX + ', 50)');
   dataPoints.append("text")
     .text((d) => `${d.name} (str:${d.strength})`)
@@ -37,12 +35,7 @@ colorIndex['Amina'] = 'fff059';
 colorIndex['Relinq'] = 'c19e77';
 colorIndex['Belwood'] = '72b210';
 
-
 var originToColor = (d) => {
-  return '#' + colorIndex[d.origin];
-};
-
-var originToColor2 = (d) => {
   return '#' + colorIndex[d];
 };
 
